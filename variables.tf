@@ -16,8 +16,10 @@ variable "IGW_name" {}
 #variable "key_name" {}
 variable "public_subnet1_cidr" {}
 variable "public_subnet2_cidr" {}
+variable "private_subnet_cidr" {}
 variable "public_subnet1_name" {}
 variable "public_subnet2_name" {}
+variable "private_subnet_name" {}
 variable Main_Routing_Table {}
 variable "settings" {
   type = list(object({

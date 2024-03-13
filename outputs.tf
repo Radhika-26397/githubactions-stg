@@ -1,10 +1,10 @@
 output "InstanceID" {
   description = "List of IDs of instances"
-  value       = ["${aws_instance.web-1.id}"]
+  value       = ["${aws_instance.web-2.id}"]
 }
 output "Instance_PrivateIP" {
   description = "List of IDs of instances"
-  value       = ["${aws_instance.web-1.private_ip}"]
+  value       = ["${aws_instance.web-2.private_ip}"]
 }
 
 output "VPC_ID" {
@@ -34,7 +34,7 @@ output "Routetable_ID" {
 }
 output "vpc_security_group_ids" {
   description = "List of associated security groups of instances, if running in non-default VPC"
-  value       = ["${aws_instance.web-1.*.vpc_security_group_ids}"]
+  value       = ["${aws_instance.web-2.*.vpc_security_group_ids}"]
 }
 
 

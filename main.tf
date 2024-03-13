@@ -67,10 +67,15 @@ resource "aws_route_table" "RT2" {
     }
 }
 
-resource "aws_route_table_association" "terraform-public" {
+resource "aws_route_table_association" "terraform-public1" {
     subnet_id = "${aws_subnet.subnet1-public.id}"
     route_table_id = "${aws_route_table.RT2.id}"
 }
+resource "aws_route_table_association" "terraform-public2" {
+    subnet_id = "${aws_subnet.subnet2-public.id}"
+    route_table_id = "${aws_route_table.RT2.id}"
+}
+
 
 resource "aws_security_group" "allow_all" {
   name        = "allow_all"
@@ -105,7 +110,7 @@ resource "aws_security_group" "allow_all" {
     
   }
   tags = {
-    Name = "TF_sg"
+    Name = "TF_sg-prod"
   }
    
 }
@@ -119,7 +124,7 @@ resource "aws_key_pair" "newkey" {
   public_key    = tls_private_key.newkey.public_key_openssh
 }
 
-resource "aws_instance" "web-1" {
+resource "aws_instance" "web-2" {
     #ami = var.imagename
     ami = "ami-0f403e3180720dd7e"
     #ami = "${data.aws_ami.my_ami.id}"
