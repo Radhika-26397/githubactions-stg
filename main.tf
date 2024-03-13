@@ -1,54 +1,54 @@
 provider "aws" {
-    access_key = "**"
-    secret_key = "**"
-    region = "us-east-1"
+    access_key = "${var.aws_access_key}"
+    secret_key = "${var.aws_secret_key}"
+    region = "${var.aws_region}"
 }
 
 resource "aws_vpc" "default" {
-    cidr_block = "192.168.0.0"
+    cidr_block = "${var.vpc_cidr}"
     enable_dns_hostnames = true
     tags = {
-        Name = "Github-VPC"
+        Name = "${var.vpc_name}"
 	    Owner = "Testuser"
-	    environment = "test"
+	    environment = "${var.environment}"
     }
 }
 
 resource "aws_internet_gateway" "IG2" {
     vpc_id = "${aws_vpc.default.id}"
 	tags = {
-        Name = "GIT-IG"
+        Name = "${var.IGW_name}"
     }
 }
 
 resource "aws_subnet" "subnet1-public" {
     vpc_id = "${aws_vpc.default.id}"
-    cidr_block = "192.168.1.0"
+    cidr_block = "${var.public_subnet1_cidr}"
     availability_zone = "us-east-1a"
 
     tags = {
-        Name = "GIT-SN01"
+        Name = "${var.public_subnet1_name}"
     }
 }
 
 resource "aws_subnet" "subnet2-public" {
     vpc_id = "${aws_vpc.default.id}"
-    cidr_block = "192.168.2.0"
+    cidr_block = "${var.public_subnet2_cidr}"
     availability_zone = "us-east-1b"
 
     tags = {
-        Name = "GIT-SN02"
+        Name = "${var.public_subnet2_name}"
     }
 }
 
 
 resource "aws_subnet" "subnet1-private" {
     vpc_id = "${aws_vpc.default.id}"
-    cidr_block = "192.168.4.0"
+    cidr_block = "${var.private_subnet_cidr}"
     availability_zone = "us-east-1d"
 
     tags = {
-        Name = "GIT-SN04"
+        Name = "${var.private_subnet_name}"
     }
 	
 }
@@ -63,7 +63,7 @@ resource "aws_route_table" "RT2" {
     }
 
     tags = {
-        Name = "GIT-RT"
+        Name = "${var.Main_Routing_Table}"
     }
 }
 
@@ -105,7 +105,7 @@ resource "aws_security_group" "allow_all" {
     
   }
   tags = {
-    Name = "GIT_sg"
+    Name = "TF_sg"
   }
    
 }
@@ -118,14 +118,6 @@ resource "aws_key_pair" "newkey" {
   key_name      = "TerraformKey"
   public_key    = tls_private_key.newkey.public_key_openssh
 }
-# resource "local_file" "newkey"{
-#   content = tls_private_key.newkey.private_key_pem
-#   filename = "TerraformKey"
-# }
-#   provisioner "local-exec" {
-#     command = "echo ${tls_private_key.newkey.private_key_pem}" > TerraformKey.pem 
-#     interpreter = ["PowerShell", "-Command"]
-#   }
 
 resource "aws_instance" "web-1" {
     #ami = var.imagename
@@ -174,16 +166,16 @@ resource "aws_instance" "web-1" {
 #     # encrypt        = true
 #   }
 # }
-# resource "aws_dynamodb_table" "terraform_locks" {
-#   name         = "${var.aws_dynamo_db_table}"
-#   billing_mode = "PAY_PER_REQUEST"
-#   hash_key     = "LockID"
+# # resource "aws_dynamodb_table" "terraform_locks" {
+# #   name         = "${var.aws_dynamo_db_table}"
+# #   billing_mode = "PAY_PER_REQUEST"
+# #   hash_key     = "LockID"
 
-#   attribute {
-#     name = "LockID"
-#     type = "S"
-#   }
-# }
+# #   attribute {
+# #     name = "LockID"
+# #     type = "S"
+# #   }
+# # }
 
 
 
